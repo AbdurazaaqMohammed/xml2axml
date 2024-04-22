@@ -159,7 +159,13 @@ public class ValueChunk extends Chunk<Chunk.EmptyHeader> {
                         break;
                     case 4:
                         type = ValueType.INT_DEC;
-                        data = Integer.parseInt(vp.val);
+                        try {
+                            data = Integer.parseInt(vp.val);
+                        } catch (NumberFormatException e) {
+                            type = ValueType.STRING;
+                            realString = vp.val;
+                            stringPool().addString(realString);
+                        }
                         break;
                     case 5:
                         type = ValueType.INT_HEX;
